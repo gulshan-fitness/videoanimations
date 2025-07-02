@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: Add this to make sure html and body take full size */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #000;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* RepMeter Container */
+.rep-meter {
+  width: 100%;
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 20px;
+  position: relative;
+}
+
+/* Background Bar */
+.bar {
+  position: relative;
+  height: 40px;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Zones */
+.zone {
+  flex: 1;
+  text-align: center;
+  height:100%;
+  font-size: 25px;
+  font-weight: bold;
+  z-index: 2;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.strength {
+  background: green;
+}
+
+.hypertrophy {
+  background: yellow;
+  font-weight: 700;
+  color: black;
+}
+
+.endurance {
+  background: red;
+}
+
+/* Pointer */
+.pointer {
+  position: absolute;
+  top: -8px;
+  width: 12px;
+  height: 56px;
+  background: linear-gradient(180deg,   blue, red);
+
+  border-radius: 6px;
+  transition: left 0.1s ease-out;
+  z-index: 3;
+  box-shadow: 0 0 10px #facc15;
+}
+
+/* Glow Pulse Animation */
+.glow {
+  animation: pulseGlow 1s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 8px 2px rgba(250, 204, 21, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px 6px rgba(250, 204, 21, 1);
+  }
+  100% {
+    box-shadow: 0 0 8px 2px rgba(250, 204, 21, 0.7);
+  }
+}
