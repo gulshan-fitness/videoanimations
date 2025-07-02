@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import VolumeMeter from '../PremiumVolumeMeter';
+
 import VolumeMeter2 from './volumeMeter2';
+import PremiumVolumeMeter from '../PremiumVolumeMeter';
 
 
 
@@ -133,7 +134,7 @@ const [repCount, setRepCount] = useState(0);
     </div>
 
 
-   <VolumeMeter/>
+   <PremiumVolumeMeter/>
 
    <VolumeMeter2/>
 
