@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Animation2 from './Animation2';
+
+import { Link } from 'react-router-dom';
 
 
 const RepMeter = () => {
   const [position, setPosition] = useState(0);
+  const links=[
+    "animation2",
+      "animation3",
+      'volu1',
+      "volu2",
+  ]
 
   useEffect(() => {
     const target = 60; // Hypertrophy zone (middle)
@@ -24,6 +31,8 @@ const RepMeter = () => {
 
   return (
     <div className="rep-meter">
+
+      
       <div className="bar">
         <div className="zone strength">1–5 <span className="text-2xl md:text-3xl">🏋️</span></div>
         <div className="zone hypertrophy">6–12 <span className="text-2xl md:text-3xl">💪</span></div>
@@ -35,7 +44,16 @@ const RepMeter = () => {
         />
       </div>
 
-      <Animation2/>
+
+
+      <div className=' flex gap-3 items-center mt-9'> 
+      {links?.map(
+(data,index)=><Link  to={`/${data}`} className=' p-2 border-2'>{index+1}</Link>
+
+      )}
+      </div>
+
+      
     </div>
   );
 };
