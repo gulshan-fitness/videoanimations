@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Animation2 from './Animation2';
+
 
 const RepMeter = () => {
   const [position, setPosition] = useState(0);
@@ -34,7 +34,7 @@ const RepMeter = () => {
         />
       </div>
 
-      <Animation2/>
+      
     </div>
   );
 };
