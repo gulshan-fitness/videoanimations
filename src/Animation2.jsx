@@ -1,62 +1,146 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-const PulseGlow = ({ cx, cy }) => (
-  <motion.circle
-    cx={cx}
-    cy={cy}
-    r="20"
-    fill="rgba(255,0,0,0.4)"
-    initial={{ scale: 1, opacity: 0.6 }}
-    animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-    transition={{ duration: 1.2, repeat: Infinity }}
-    filter="url(#glow)"
-  />
-);
+import VolumeMeter from '../PremiumVolumeMeter';
+import VolumeMeter2 from './volumeMeter2';
+
+
 
 const Animation2 = () => {
+const [reps, setReps] = useState(0);
+const [repCount, setRepCount] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setReps((prev) => (prev >= 20 ? 0 : prev + 1));
+    }, 150); // Smooth up motion
+    return () => clearInterval(interval);
+  }, []);
+
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRepCount((prevCount) => (prevCount >= 20 ? 0 : prevCount + 1));
+    }, 150); // Smooth animation
+    return () => clearInterval(timer);
+  }, []);
+
+  const getColor = () => {
+    if (reps <= 5) return '#00BFFF';      // Blue
+    if (reps <= 12) return '#FFA500';     // Orange
+    return '#FF4500';                     // Red
+  };
+
+  const getZone = () => {
+    if (reps <= 5) return '🏋️ Strength';
+    if (reps <= 12) return '💪 Hypertrophy';
+    return '💨 Endurance';
+  };
+
+
+    const determineColor = () => {
+    if (repCount <= 5) return '#00BFFF';      // Blue - Strength
+    if (repCount <= 12) return '#FFA500';     // Orange - Hypertrophy
+    return '#FF4500';                         // Red - Endurance
+  };
+
+  const determineZoneLabel = () => {
+    if (repCount <= 5) return '🏋️ Strength';
+    if (repCount <= 12) return '💪 Hypertrophy';
+    return '💨 Endurance';
+  };
+
   return (
-    <div className="bg-black flex items-center justify-center min-h-screen">
-      <svg
-        width="400"
-        height="800"
-        viewBox="0 0 400 800"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Glow filter */}
-        <defs>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="6" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
+    <div className=' py-9 bg-black '>
+       <div className="flex flex-col items-center justify-center  text-white">
+     
 
-        {/* Human body shape - simplified silhouette */}
-        <path
-          d="M200 50
-             C170 150, 230 150, 200 250
-             C180 320, 220 320, 200 390
-             C180 470, 220 470, 200 550
-             C180 650, 220 650, 200 750"
-          stroke="white"
-          strokeWidth="10"
-          fill="none"
-        />
+      <div className="relative w-24 h-[400px] bg-gray-800 rounded-lg overflow-hidden shadow-inner">
+        {/* Colored Zones */}
+        <div className="absolute top-0 left-0 w-full h-full z-0">
+          <div className="h-[25%] bg-blue-600 flex items-center justify-center text-md font-bold">
+            1–5 🏋️
+          </div>
+          <div className="h-[35%] bg-orange-500 flex items-center justify-center text-md font-bold">
+            6–12 💪
+          </div>
+          <div className="h-[40%] bg-red-600 flex items-center justify-center text-md font-bold">
+            13–20 💨
+          </div>
+        </div>
 
-        {/* Head */}
-        <circle cx="200" cy="30" r="25" fill="white" />
+        {/* Animated Volume Meter Bar */}
+        <motion.div
+          className="absolute bottom-0 left-0 w-full rounded-t-md"
+          style={{ backgroundColor: getColor() }}
+          animate={{ height: `${(reps / 20) * 100}%` }}
+          transition={{ type: 'tween', duration: 0.4 }}
+        >
+          {/* Glow effect */}
+          <div className="w-full h-full animate-pulse bg-opacity-30 backdrop-blur-sm" />
+        </motion.div>
 
-        {/* Muscle Pulses */}
-        <PulseGlow cx="160" cy="180" /> {/* Left Bicep */}
-        <PulseGlow cx="240" cy="180" /> {/* Right Bicep */}
-        <PulseGlow cx="175" cy="220" /> {/* Chest Left */}
-        <PulseGlow cx="225" cy="220" /> {/* Chest Right */}
-        <PulseGlow cx="175" cy="460" /> {/* Left Quad */}
-        <PulseGlow cx="225" cy="460" /> {/* Right Quad */}
-      </svg>
+        {/* Rep Count Label */}
+        <div className="absolute top-0 text-center left-1/2 w-full transform -translate-x-1/2 bg-black/60 px-2 py-1 rounded text-white text-sm font-bold">
+          {reps} Reps
+        </div>
+      </div>
+
+      {/* Zone Label */}
+      <p className="mt-2 text-xl font-bold" style={{ color: getColor() }}>
+        {getZone()}
+      </p>
+
+
+
     </div>
+
+    <div className="flex flex-col items-center justify-center h-screen bg-black text-white">
+      <div className="relative w-24 h-[400px] bg-gray-800 rounded-lg overflow-hidden shadow-inner">
+        
+        {/* Zone Sections (Top to Bottom) */}
+        <div className="absolute top-0 left-0 w-full h-full z-0 flex flex-col">
+          <div className="h-[40%] bg-red-600 flex items-center justify-center text-md font-bold">
+            13–20 💨
+          </div>
+          <div className="h-[35%] bg-orange-500 flex items-center justify-center text-md font-bold">
+            6–12 💪
+          </div>
+          <div className="h-[25%] bg-blue-600 flex items-center justify-center text-md font-bold">
+            1–5 🏋️
+          </div>
+        </div>
+
+        {/* Dynamic Bar Animation (Top-Down) */}
+        <motion.div
+          className="absolute top-0 left-0 w-full rounded-b-md origin-top"
+          style={{ backgroundColor: determineColor() }}
+          animate={{ height: `${(repCount / 20) * 100}%` }}
+          transition={{ type: 'tween', duration: 0.4 }}
+        >
+          <div className="w-full h-full animate-pulse bg-opacity-30 backdrop-blur-sm" />
+        </motion.div>
+
+        {/* Rep Count Display */}
+        <div className="absolute top-0 text-center left-1/2 w-full transform -translate-x-1/2 bg-black/60 px-2 py-1 rounded text-white text-sm font-bold z-10">
+          {repCount} Reps
+        </div>
+      </div>
+
+      {/* Zone Label Display */}
+      <p className="mt-2 text-xl font-bold" style={{ color: determineColor() }}>
+        {determineZoneLabel()}
+      </p>
+    </div>
+
+
+   <VolumeMeter/>
+
+   <VolumeMeter2/>
+
+    </div>
+
+
+   
   );
 };
 
