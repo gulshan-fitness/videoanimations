@@ -7,7 +7,7 @@ import Home from './Home'
 import Animation2 from './Animation2'
 import Animation3 from './Animation3'
 import PremiumVolumeMeter from './PremiumVolumeMeter'
-import VolumeMeter2 from './volumeMeter2'
+import VolumeMeter2 from './VolumeMeter2'
 
 
 function App() {
